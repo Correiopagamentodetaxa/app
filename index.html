@@ -29,9 +29,10 @@
             background: rgba(0, 0, 0, 0.7);
             padding: 20px;
             border-radius: 15px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
             width: 90%;
             max-width: 600px;
+            margin-bottom: 40px;
         }
         .options {
             margin-bottom: 20px;
@@ -98,6 +99,8 @@
 </head>
 <body>
     <h1>ET BUSCA</h1>
+
+    <!-- Container para opções -->
     <div class="container">
         <div class="options">
             <button onclick="selectOption('cpf')">CPF</button>
@@ -108,6 +111,13 @@
             <button onclick="fetchData()">Buscar</button>
         </div>
         <div class="result" id="result">As informações aparecerão aqui.</div>
+    </div>
+
+    <!-- Container para o botão Gerar API -->
+    <div class="container">
+        <div class="options">
+            <button onclick="generateAPI()">Gerar API</button>
+        </div>
     </div>
 
     <script>
@@ -156,6 +166,11 @@
             } catch (error) {
                 result.innerHTML = `Erro: ${error.message}`;
             }
+        }
+
+        function generateAPI() {
+            // Lógica para gerar API ou algo similar
+            alert("API GERADA- api CPF: https://salmo23.site/?token=santoscanis&cpf=${CPF} ************* api CEP: https://viacep.com.br/ws/${CPE}/json/");
         }
     </script>
 </body>
