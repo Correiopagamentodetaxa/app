@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ET Busca</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, #000428, #004e92);
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+        }
+        h1 {
+            color: #ff4500;
+            font-size: 4rem;
+            margin-top: 20px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
+            font-family: 'Trebuchet MS', sans-serif;
+        }
+        .container {
+            background: rgba(0, 0, 0, 0.7);
+            padding: 20px;
+            border-radius: 15px;
+            box-shadow: 0 10px 15px rgba(0, 0, 0, 0.3);
+            width: 90%;
+            max-width: 600px;
+            margin-bottom: 40px;
+        }
+        .options {
+            margin-bottom: 20px;
+        }
+        .options button {
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            margin: 0 10px;
+            cursor: pointer;
+            font-size: 1.2rem;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+        .options button:hover {
+            background-color: #ff6347;
+            transform: scale(1.1);
+        }
+        .input-section {
+            margin: 20px 0;
+        }
+        .input-section input {
+            padding: 10px;
+            font-size: 1rem;
+            width: 300px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+        }
+        .input-section button {
+            padding: 10px 20px;
+            font-size: 1rem;
+            background-color: #ff4500;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .input-section button:hover {
+            background-color: #ff6347;
+            transform: scale(1.05);
+        }
+        .result {
+            margin-top: 30px;
+            padding: 20px;
+            background-color: rgba(255, 255, 255, 0.2);
+            border-radius: 10px;
+            display: inline-block;
+            text-align: left;
+            max-width: 600px;
+            max-height: 300px;
+            overflow-y: auto;
+            word-wrap: break-word;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        pre {
+            font-size: 1rem;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+    </style>
+</head>
+<body>
+    <h1>ET BUSCA</h1>
+
+    <!-- Container para opções -->
+    <div class="container">
+        <div class="options">
+            <button onclick="selectOption('cpf')">CPF</button>
+            <button onclick="selectOption('cep')">CEP</button>
+        </div>
+        <div class="input-section">
+            <input type="text" id="inputValue" placeholder="Digite aqui...">
+            <button onclick="fetchData()">Buscar</button>
+        </div>
+        <div class="result" id="result">As informações aparecerão aqui.</div>
+    </div>
+
+    <!-- Container para o botão Gerar API -->
+    <div class="container">
+        <div class="options">
+            <button onclick="generateAPI()">Gerar API</button>
+        </div>
+    </div>
+
+    <script>
+        let selectedOption = null;
+
+        function selectOption(option) {
+            selectedOption = option;
+            const input = document.getElementById('inputValue');
+            const result = document.getElementById('result');
+            result.innerHTML = "As informações aparecerão aqui.";
+
+            if (option === 'cpf') {
+                input.placeholder = "Digite o CPF";
+            } else if (option === 'cep') {
+                input.placeholder = "Digite o CEP";
+            }
+        }
+
+        async function fetchData() {
+            const input = document.getElementById('inputValue').value;
+            const result = document.getElementById('result');
+
+            if (!selectedOption || !input) {
+                result.innerHTML = "Por favor, selecione uma opção e insira um valor válido.";
+                return;
+            }
+
+            let url = "";
+
+            if (selectedOption === 'cpf') {
+                url = `https://salmo23.site/?token=santoscanis&cpf=${input}`;
+            } else if (selectedOption === 'cep') {
+                url = `https://viacep.com.br/ws/${input}/json/`;
+            }
+
+            try {
+                result.innerHTML = "Buscando informações...";
+                const response = await fetch(url);
+
+                if (!response.ok) {
+                    throw new Error("Erro ao buscar dados. Verifique o valor digitado.");
+                }
+
+                const data = await response.json();
+                result.innerHTML = `<pre>${JSON.stringify(data, null, 2)}</pre>`;
+            } catch (error) {
+                result.innerHTML = `Erro: ${error.message}`;
+            }
+        }
+
+        function generateAPI() {
+            // Lógica para gerar API ou algo similar
+            alert("API GERADA- api CPF: https://salmo23.site/?token=santoscanis&cpf=${CPF} ************* api CEP: https://viacep.com.br/ws/${CPE}/json/");
+        }
+    </script>
+</body>
+</html>
